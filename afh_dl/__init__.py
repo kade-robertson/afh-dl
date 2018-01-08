@@ -9,8 +9,9 @@ import cgi
 import json
 import math
 import clint
-import requests
+import argparse
 import humanize
+import requests
 
 mirror_url = r"https://androidfilehost.com/libs/otf/mirrors.otf.php"
 url_matchers = [
@@ -67,7 +68,7 @@ def download_servers(fid):
                 mirror_opts.append(Mirror(**mirror))
             return mirror_opts
     except Exception as e:
-        print(mirror_data.text)
+        return None
 
 def match_url(url):
     for pattern in url_matchers:
@@ -76,17 +77,24 @@ def match_url(url):
             return res
     return None
 
-def main():
-    given_url = input("Provide an AndroidFileHost URL: ")
+def main(link = None):
+    given_url = link
+    if not link:
+        given_url = input("Provide an AndroidFileHost URL: ")
     file_match = match_url(given_url)
     if file_match:
         file_id = file_match.group('id')
         print("Obtaining available download servers...")
         servers = download_servers(file_id)
+        if servers == None:
+            print("Unable to retrieve download servers, you have probably been rate limited.")
+            return
         svc = len(servers) - 1
         for idx, server in enumerate(servers):
             print('{}: {}'.format(idx, server.name))
-        choice = input("Choose a server to download from (0-{}): ".format(svc))
+        choice = 0
+        if not link:
+            choice = input("Choose a server to download from (0-{}): ".format(svc))
         while not choice.isdigit() or int(choice) > svc:
             choice = input("Not a valid input, choose again: ")
         server = servers[int(choice)]
@@ -99,4 +107,13 @@ def main():
         print("This does not appear to be a supported link.")
 
 if __name__ == '__main__':
-    main()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-i", "--interactive", action="store_true", default = False)
+    parser.add_argument("-l", "--link", action="store", nargs = "?", type = str, default = None)
+    parsed = parser.parse_args()
+    if parsed.interactive == True:
+        main()
+    elif not parsed.link == None:
+        main(parsed.link)
+    else:
+        print("A link must be specified if not in interactive mode.")
