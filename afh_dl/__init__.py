@@ -92,10 +92,10 @@ def main(link = None):
         svc = len(servers) - 1
         for idx, server in enumerate(servers):
             print('{}: {}'.format(idx, server.name))
-        choice = 0
+        choice = "0"
         if not link:
             choice = input("Choose a server to download from (0-{}): ".format(svc))
-        while not choice.isdigit() or int(choice) > svc:
+        while not choice.isdigit() or int(choice) > svc or int(choice) < 0:
             choice = input("Not a valid input, choose again: ")
         server = servers[int(choice)]
         print("Downloading from {}...".format(server.name))
