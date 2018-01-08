@@ -106,10 +106,12 @@ def main(link = None):
     else:
         print("This does not appear to be a supported link.")
 
-if __name__ == '__main__':
+def entry_main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("-i", "--interactive", action="store_true", default = False)
-    parser.add_argument("-l", "--link", action="store", nargs = "?", type = str, default = None)
+    parser.add_argument("-i", "--interactive", action="store_true", default = False,
+                        help = "Run afh-dl in interactive mode.")
+    parser.add_argument("-l", "--link", action="store", nargs = "?", type = str, default = None,
+                        help = "Link that should be downloaded.")
     parsed = parser.parse_args()
     if parsed.interactive == True:
         main()
@@ -117,3 +119,6 @@ if __name__ == '__main__':
         main(parsed.link)
     else:
         print("A link must be specified if not in interactive mode.")
+
+if __name__ == '__main__':
+    entry_main()

@@ -11,7 +11,7 @@ except(IOError, ImportError):
 
 setup(
     name = "afh-dl",
-    version = "1.0.0",
+    version = "1.0.1",
     description = "A command-line tool for downloading files from AndroidFileHost.",
     long_description = long_desc,
     classifiers = [
@@ -32,7 +32,7 @@ setup(
     ],
     entry_points = {
         'console_scripts': [
-            'afh-dl = afh_dl:main'
+            'afh-dl = afh_dl:entry_main'
         ]
     },
     keywords = "android file host downloader",
