@@ -25,7 +25,7 @@ def download_file(url, fname, fsize):
     dat = requests.get(url, stream = True)
     with open(fname, 'wb') as f:
         bar = clint.textui.progress.bar(dat.iter_content(chunk_size = 4096),
-                                        expected_size = floor(fsize / 4096) + 1)
+                                        expected_size = math.floor(fsize / 4096) + 1)
         for chunk in bar:
             f.write(chunk)
             f.flush()
