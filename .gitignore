@@ -1,0 +1,5 @@
+*.pyc
+.vscode/*
+afh_dl.egg-info/*
+dist/*
+build/*
