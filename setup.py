@@ -5,13 +5,13 @@ import afh_dl
 long_desc = ""
 try:
     import pypandoc
-    long_desc = pypandoc.convert('README.md', 'rst')
+    long_desc = pypandoc.convert('README.md', 'rst', extra_args = ('--eol', 'lf'))
 except(IOError, ImportError):
     long_desc = open('README.md').read()
 
 setup(
     name = "afh-dl",
-    version = "1.0.2",
+    version = "1.0.3",
     description = "A command-line tool for downloading files from AndroidFileHost.",
     long_description = long_desc,
     classifiers = [
